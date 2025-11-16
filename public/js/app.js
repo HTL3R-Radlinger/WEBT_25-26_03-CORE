@@ -1,6 +1,8 @@
-// public/js/app.js
-
+// Fetch and load meal plans
 async function loadMealPlans() {
+    const container = document.getElementById('meal-plans');
+    container.textContent = 'Loading…';
+
     try {
         const response = await fetch('/index.php', {
             headers: {
@@ -8,59 +10,54 @@ async function loadMealPlans() {
             }
         });
 
-        if (!response.ok) {
-            throw new Error("HTTP error: " + response.status);
-        }
+        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
 
         const data = await response.json();
         renderMealPlans(data);
     } catch (error) {
-        console.error("Error fetching meal plans:", error);
-        const container = document.getElementById('meal-plans');
-        container.textContent = `Could not load meal plans. Error: ${error}`;
+        console.error('Error fetching meal plans:', error);
+        container.textContent = `Could not load meal plans. Error: ${error.message}`;
     }
 }
 
+// Render all meal plans to the page
 function renderMealPlans(plans) {
     const container = document.getElementById('meal-plans');
-    container.innerHTML = "";
+    container.innerHTML = "";  // Clear existing content
 
     plans.forEach(plan => {
-        const div = document.createElement('div');
-
         const mealsHtml = plan.meals.map(meal => {
-            // Turn string into array
-            let allergensArr = [];
-            if (typeof meal.allergens === 'string') {
-                allergensArr = meal.allergens
-                    .split(',')                     // split at commas :contentReference[oaicite:0]{index=0}
-                    .map(a => a.trim());             // trim whitespace
-            } else if (Array.isArray(meal.allergens)) {
-                allergensArr = meal.allergens;
-            }
-
-            const allergens = allergensArr.map(a => escapeHtml(a)).join(', ');
+            const allergens = formatAllergens(meal.allergens);
 
             return `
-        <li>
-          <strong>${escapeHtml(meal.name)}</strong> — €${meal.price}
-          <br><small>Allergens: ${allergens || '—'}</small>
-        </li>
-      `;
+                <li>
+                    <strong>${escapeHtml(meal.name)}</strong> — €${meal.price}
+                    <br><small>Allergens: ${allergens || '—'}</small>
+                </li>
+            `;
         }).join('');
 
-        div.innerHTML = `
-      <h2>${escapeHtml(plan.name)}</h2>
-      <p><strong>School:</strong> ${escapeHtml(plan.schoolName)}</p>
-      <p><strong>Week:</strong> ${escapeHtml(plan.weekOfDelivery)}</p>
-      <ul>${mealsHtml}</ul>
-      <hr>
-    `;
-
-        container.appendChild(div);
+        container.innerHTML += `
+            <div>
+                <h2>${escapeHtml(plan.name)}</h2>
+                <p><strong>School:</strong> ${escapeHtml(plan.schoolName)}</p>
+                <p><strong>Week:</strong> ${escapeHtml(plan.weekOfDelivery)}</p>
+                <ul>${mealsHtml}</ul>
+                <hr>
+            </div>
+        `;
     });
 }
 
+// Format allergens, handling both string and array
+function formatAllergens(allergens) {
+    if (Array.isArray(allergens)) {
+        return allergens.map(a => escapeHtml(a)).join(', ');
+    } else if (typeof allergens === 'string') {
+        return allergens.split(',').map(a => escapeHtml(a.trim())).join(', ');
+    }
+    return null;
+}
 
 // Simple HTML-escaping to avoid XSS
 function escapeHtml(text) {
@@ -72,6 +69,5 @@ function escapeHtml(text) {
         .replace(/'/g, "&#039;");
 }
 
-
-// Start loading when page is ready
+// Load meal plans when the page is ready
 document.addEventListener('DOMContentLoaded', loadMealPlans);
