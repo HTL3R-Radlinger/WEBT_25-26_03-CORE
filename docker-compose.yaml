@@ -1,11 +1,12 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: dockerfile
     ports:
       - "8080:80"
     container_name: CORE3
     volumes:
-      - ./src:/var/www/html/src
-      - ./public:/var/www/html
+      - .:/var/www/html
 #    environment:
 #      - JWT_SECRET=supersecretkey123
