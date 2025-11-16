@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Classes\Seeder;
@@ -8,43 +9,52 @@ use Classes\Seeder;
 // Generate all meal plans
 $mealPlans = Seeder::generate();
 
-// --- Validate request header ---
+// Read the Accept header
 $acceptHeader = $_SERVER['HTTP_ACCEPT'] ?? '';
-
 $wantsJson = str_contains($acceptHeader, 'application/json');
 
-// If client does NOT request JSON → reject
-if (!$wantsJson) {
-    http_response_code(406); // Not Acceptable
-    echo "Client must request JSON via: Accept: application/json";
+// If client explicitly requests JSON, return JSON
+if ($wantsJson) {
+    header("Content-Type: application/json");
+    echo json_encode($mealPlans, JSON_PRETTY_PRINT);
     exit;
 }
 
-// --- GET parameter: mealplan=ID ---
-$id = isset($_GET['mealplan']) ? intval($_GET['mealplan']) : null;
+// Otherwise (typical browser navigation), render HTML page for demo
+// You can either include a demo template, or redirect, or render inline
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meal Plans Demo</title>
+</head>
+<body>
+<h1>Meal Plans (HTML view)</h1>
+<div id="meal-plans">Loading …</div>
 
-// No ID given → error
-if ($id === null) {
-    http_response_code(400); // Bad Request
-    echo json_encode(["error" => "Missing GET parameter 'mealplan'"]);
-    exit;
-}
+<script>
+    // Inline some data as fallback
+    const mealPlans = <?php echo json_encode($mealPlans, JSON_PRETTY_PRINT); ?>;
 
-// Check if ID exists
-$found = null;
-foreach ($mealPlans as $plan) {
-    if ($plan->id === $id) {
-        $found = $plan;
-        break;
+    function renderMealPlans(plans) {
+        const container = document.getElementById('meal-plans');
+        container.innerHTML = "";
+        plans.forEach(plan => {
+            const div = document.createElement('div');
+            div.innerHTML = `<h2>${plan.name}</h2>
+                         <p>School: ${plan.schoolName}, Week: ${plan.week}</p>
+                         <ul>
+                           ${plan.meals.map(m => `<li>${m.name} — €${m.price} (Allergens: ${m.allergens.join(', ')})</li>`).join('')}
+                         </ul><hr>`;
+            container.appendChild(div);
+        });
     }
-}
 
-if (!$found) {
-    http_response_code(404);
-    echo json_encode(["error" => "Meal plan not found"]);
-    exit;
-}
-
-// --- Output JSON ---
-header("Content-Type: application/json");
-echo json_encode($found, JSON_PRETTY_PRINT);
+    document.addEventListener('DOMContentLoaded', () => {
+        renderMealPlans(mealPlans);
+        // Also, optionally, you could re-fetch via fetch() here if you want fresh data
+    });
+</script>
+</body>
+</html>

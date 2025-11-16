@@ -1,9 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meal Plans Demo</title>
+</head>
+<body>
+<h1>Meal Plans</h1>
+<div id="meal-plans">Loading …</div>
+
+<script src="./js/app.js" defer></script>
+</body>
+</html>
 <?php
 require __DIR__ . '/../vendor/autoload.php';
-
-use Classes\Seeder;
-
-$results = Seeder::generate();
-echo "<pre>";
-print_r($results);
-echo "</pre>";
