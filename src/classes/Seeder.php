@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Classes;
 class Seeder
 {
     public static function generate(): array

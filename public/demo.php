@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Seeder;
+use Classes\Seeder;
 
 $results = Seeder::generate();
 echo "<pre>";

@@ -1,2 +1,2 @@
 <?php
-echo "Hello World!";
+require_once __DIR__ . '/../src/api.php';

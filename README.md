@@ -3,4 +3,11 @@ At first install run: ```docker compose up --build -d```
 Then go into the container: ```docker exec -it CORE3 bash```. And run ```composer install``` (This creates the vendor
 folder)
 
+#### US2
 With http://localhost:8080/demo.php you can see the demo.
+
+#### US3
+With ``` curl -H "Accept: application/json" "http://localhost:8080/?mealplan=1"``` you can request information about a specific meal plan as JSON.
+
+#### US4
+

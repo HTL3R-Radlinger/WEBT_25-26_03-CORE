@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Classes;
 
 class Meal
 //    implements \JsonSerializable
