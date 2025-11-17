@@ -28,6 +28,11 @@ class GetMeals
             }
         }
         return json_encode(["error" => "No meal with ID found!"]);
+    }
 
+    public static function getAllMealPlans(): string
+    {
+        $mealPlans = MealSeeder::generate();
+        return json_encode($mealPlans);
     }
 }

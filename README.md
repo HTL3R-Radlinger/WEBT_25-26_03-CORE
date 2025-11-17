@@ -7,7 +7,7 @@ folder)
 With http://localhost:8080/demo.php you can see the demo.
 
 #### US3
-With ``` curl -H "Accept: application/json" "http://localhost:8080/?mealplan=1"``` you can request information about a specific meal plan as JSON.
+With http://localhost:8080/api.php?id=X you can request information about a specific meal plan as JSON.
 
 #### US4
 
