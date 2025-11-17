@@ -10,4 +10,7 @@ With http://localhost:8080/demo.php you can see the demo.
 With http://localhost:8080/api.php?id=X you can request information about a specific meal plan as JSON.
 
 #### US4
+At ```http://localhost:8080``` you can see all mealplans via js.
 
+#### US5
+Using the get parameter "id" you can request a meal with that id at ```http://localhost:8080```
