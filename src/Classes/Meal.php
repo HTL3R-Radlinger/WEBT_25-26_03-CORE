@@ -2,8 +2,7 @@
 
 namespace App\Classes;
 
-class Meal
-//    implements \JsonSerializable
+class Meal implements \JsonSerializable
 {
     public int $id;
     public string $name;
@@ -26,7 +25,7 @@ class Meal
         $this->price = $price;
     }
 
-//    public function jsonSerialize(): array {
-//        return get_object_vars($this);
-//    }
+    public function jsonSerialize(): array {
+        return get_object_vars($this);
+    }
 }

@@ -10,17 +10,19 @@ class MealSeeder
     {
         $plans = [];
         $anz_plans = 3;
+        $meal_id = 0;
         for ($plans_index = 0; $plans_index < $anz_plans; $plans_index++) {
             $meals = [];
             $anz_meals = 4;
             for ($meal_index = 0; $meal_index < $anz_meals; $meal_index++) {
                 $meals[] = new Meal(
-                    $meal_index,
+                    $meal_id,
                     "Meal $meal_index",
                     "Gluten, Lactose",
                     "Calories: " . rand(400, 700),
                     rand(5, 10)
                 );
+                $meal_id++;
             }
             $plans[] = new MealPlan(
                 $plans_index,
