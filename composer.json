@@ -3,7 +3,6 @@
   "description": "Meal Plan API with PHP and JS",
   "autoload": {
     "psr-4": {
-      "Classes\\": "src/classes/",
       "App\\": "src/"
     }
   },

@@ -1,7 +1,10 @@
 <?php
 
-namespace Classes;
-class Seeder
+namespace App\Seeder;
+use App\Classes\Meal;
+use App\Classes\MealPlan;
+
+class MealSeeder
 {
     public static function generate(): array
     {

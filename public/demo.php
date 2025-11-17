@@ -1,9 +1,8 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-use Classes\Seeder;
+use App\Seeder\MealSeeder;
 
-$results = Seeder::generate();
-echo "<pre>";
-print_r($results);
-echo "</pre>";
+$results = MealSeeder::generate();
+header("Content-Type: application/json");
+echo json_encode($results);
