@@ -1,8 +1,8 @@
 <?php
 
-use App\GetMeals;
+use App\Api\GetMeals;
 
-require_once "./../src/GetMeals.php";
+require_once "./../src/Api/GetMeals.php";
 
 header("Content-Type: application/json");
 
