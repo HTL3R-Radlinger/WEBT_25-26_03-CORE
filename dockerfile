@@ -5,11 +5,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN docker-php-ext-install pdo pdo_pgsql pdo_mysql zip gd exif
 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-RUN apt-get update -y
-RUN apt install nodejs -y
-RUN apt install fonts-lato
-
 COPY httpd-vhosts.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 
@@ -22,11 +17,7 @@ WORKDIR /var/www/html/
 
 COPY . /var/www/html/
 
-RUN rm dockerfile
-RUN rm docker-compose.yaml
-RUN rm 15_digital_meal_plan.pdf
-RUN rm README.md
-# RUN composer install
+RUN rm 15_digital_meal_plan.pdf dockerfile docker-compose.yaml httpd-vhosts.conf README.md
 
 RUN chown -R www-data:www-data *
 
