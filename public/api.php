@@ -7,10 +7,9 @@ use App\Api\Security\JwtAuth;
 
 use App\Api\GetMeals;
 
-$sharedSecret = 'password123';
+$secret = 'password123';
 
-$jwtService = new JwtService($sharedSecret);
-$auth = new JwtAuth($jwtService);
+$auth = new JwtAuth(new JwtService($secret));
 
 header("Content-Type: application/json");
 
@@ -19,8 +18,6 @@ if (!$auth->check()) {
     echo json_encode(['error' => 'Unauthorized']);
     exit;
 }
-
-$userData = $auth->user();
 
 if (isset($_GET["id"])) {
     echo GetMeals::getMealWithId((int)$_GET["id"]);
