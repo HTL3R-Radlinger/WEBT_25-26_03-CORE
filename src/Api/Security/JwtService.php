@@ -1,6 +1,6 @@
 <?php
 
-namespace Htlw3r\Dockerwebdemo\Security;
+namespace App\Api\Security;
 
 /**
  * Minimalistische JWT-HS256 Implementierung ohne externe Bibliotheken.

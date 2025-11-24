@@ -59,3 +59,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const mealId = urlParams.get('id') || "all";
 if (mealId === "all") fetchMealPlans();
 else fetchMeal(mealId);
+
+function login() {
+
+}

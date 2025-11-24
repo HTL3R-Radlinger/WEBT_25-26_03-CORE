@@ -1,10 +1,26 @@
 <?php
 
+require_once '../vendor/autoload.php';
+
+use App\Api\Security\JwtService;
+use App\Api\Security\JwtAuth;
+
 use App\Api\GetMeals;
 
-require_once "./../src/Api/GetMeals.php";
+$sharedSecret = 'password123';
+
+$jwtService = new JwtService($sharedSecret);
+$auth = new JwtAuth($jwtService);
 
 header("Content-Type: application/json");
+
+if (!$auth->check()) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit;
+}
+
+$userData = $auth->user();
 
 if (isset($_GET["id"])) {
     echo GetMeals::getMealWithId((int)$_GET["id"]);

@@ -1,8 +1,8 @@
 <?php
 
-namespace Htlw3r\Dockerwebdemo\Security;
+namespace App\Api\Security;
 
-use Htlw3r\Dockerwebdemo\Security\JwtService;
+use App\Api\Security\JwtService;
 
 /**
  * Einfache Auth-Klasse zum Prüfen von JWT-Tokens in beliebigen PHP-Skripten.
