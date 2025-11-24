@@ -57,9 +57,9 @@ async function fetchMeal(id) {
 
 const urlParams = new URLSearchParams(window.location.search);
 const mealId = urlParams.get('id') || "all";
-if (mealId === "all") fetchMealPlans();
-else fetchMeal(mealId);
+if (mealId === "all") fetchMealPlans().then(_ => console.log("Fetched all Plans."));
+else fetchMeal(mealId).then(_ => console.log("Fetched Meal with id: " + mealId));
 
 function login() {
-
+    console.log("Login");
 }
