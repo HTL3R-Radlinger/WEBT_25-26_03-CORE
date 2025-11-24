@@ -50,12 +50,25 @@
                 font-size: 1.5rem;
             }
         }
+
+        #wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            max-width: 100px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
-<button id="loginBtn">Login</button>
-<div id="mealPlansContainer"></div>
-<div id="mealContainer"></div>
-<script src="app.js" defer></script>
-</body>
+    <div id="wrapper">
+        <button id="loginBtn">Login</button>
+        <div id="mealPlansContainer"></div>
+        <div id="mealContainer"></div>
+    </div>
+    <script src="app.js" defer></script>
+    </body>
 </html>
