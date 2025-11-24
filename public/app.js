@@ -1,13 +1,6 @@
 async function fetchMealPlans() {
     try {
-        const response = await authFetch('/api.php?all=true');
-
-        if (response.status === 401) {
-            document.getElementById('mealPlansContainer').innerHTML =
-                "<h3>Bitte zuerst einloggen!</h3>";
-            return;
-        }
-
+        const response = await fetch('/api.php?all=true');
         const mealPlans = await response.json();
 
         const container = document.getElementById('mealPlansContainer');
@@ -40,14 +33,7 @@ async function fetchMealPlans() {
 
 async function fetchMeal(id) {
     try {
-        const response = await authFetch('/api.php?id=' + id);
-
-        if (response.status === 401) {
-            document.getElementById('mealPlansContainer').innerHTML =
-                "<h3>Bitte zuerst einloggen!</h3>";
-            return;
-        }
-
+        const response = await fetch(`api.php?id=${id}`);
         const meal = await response.json();
 
         const container = document.getElementById('mealContainer');
@@ -74,41 +60,6 @@ const mealId = urlParams.get('id') || "all";
 if (mealId === "all") fetchMealPlans().then(_ => console.log("Fetched all Plans."));
 else fetchMeal(mealId).then(_ => console.log("Fetched Meal with id: " + mealId));
 
-function saveToken(token) {
-    localStorage.setItem("access_token", token);
+function login() {
+    console.log("Login");
 }
-
-function getToken() {
-    return localStorage.getItem("access_token");
-}
-
-async function authFetch(url, options = {}) {
-    const token = getToken();
-    options.headers = options.headers || {};
-    if (token) {
-        options.headers["Authorization"] = "Bearer " + token;
-    }
-    return fetch(url, options);
-}
-
-// Login Button
-document.getElementById("loginBtn").addEventListener("click", async () => {
-    try {
-        const res = await fetch("/login.php");
-        const data = await res.json();
-
-        if (data.access_token) {
-            saveToken(data.access_token);
-            alert("Login erfolgreich!");
-            const urlParams = new URLSearchParams(window.location.search);
-            const mealId = urlParams.get('id') || "all";
-            if (mealId === "all") fetchMealPlans().then(_ => console.log("Fetched all Plans."));
-            else fetchMeal(mealId).then(_ => console.log("Fetched Meal with id: " + mealId));
-        } else {
-            alert("Login fehlgeschlagen");
-        }
-    } catch (e) {
-        console.error(e);
-        alert("Login Fehler");
-    }
-});
